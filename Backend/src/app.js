@@ -1,6 +1,6 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
-import  connectDB  from "./config/db.js";
+import connectDB from "./config/db.js";
 import User from "./models/user.js"
 dotenv.config();
 connectDB();
@@ -11,18 +11,25 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 
-app.post("/signup", async (req, res)=>{
+app.post("/signup", async (req, res) => {
 
   const user = new User({
-    firstName:"Manish kumar",
-    lastName:"Thakur",
-    emailId:"mkthakur511@gmail.com",
-    password:"test@123"
+    firstName: "Manish kumar",
+    lastName: "Thakur",
+    emailId: "mkthakur511@gmail.com",
+    password: "test@123"
   });
 
-  await user.save();
+  try {
+    await user.save();
 
-  res.status(201).json({message:"user registered"})
+    res.status(201).json({ message: "user registered" })
+  } catch (error) {
+    res.status(400).send(error.message)
+
+  }
+
+
 
 })
 
