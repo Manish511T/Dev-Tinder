@@ -1,8 +1,7 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
-import { adminAuth, userAuth } from "./middlewares/auth.js";
 import  connectDB  from "./config/db.js";
-
+import User from "./models/user.js"
 dotenv.config();
 connectDB();
 
@@ -11,31 +10,22 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
-app.use("/", (err, req, res, next) => {
-  if (err) {
-    res.status(500).send("something went wrong");
-  }
-});
 
+app.post("/signup", async (req, res)=>{
 
-app.use("/admin", adminAuth);
+  const user = new User({
+    firstName:"Manish kumar",
+    lastName:"Thakur",
+    emailId:"mkthakur511@gmail.com",
+    password:"test@123"
+  });
 
-app.use("/user/login", (req, res) => {
-  res.send("You're are logged in");
-});
-app.get("/user/data", userAuth, (req, res) => {
-  res.send("User Data Sent");
-});
+  await user.save();
 
-app.get("/admin/getAllData", (req, res) => {
-  res.send("Get All Data");
-});
+  res.status(201).json({message:"user registered"})
 
+})
 
-
-app.get("/admin/deleteUser", (req, res) => {
-  res.send("Deleted a user");
-});
 
 app.get("/health", (req, res) => {
   res.send("Server running");
