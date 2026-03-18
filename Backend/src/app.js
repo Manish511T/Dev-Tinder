@@ -13,24 +13,16 @@ app.use(express.json());
 
 app.post("/signup", async (req, res) => {
 
-  const user = new User({
-    firstName: "Manish kumar",
-    lastName: "Thakur",
-    emailId: "mkthakur511@gmail.com",
-    password: "test@123"
-  });
+  console.log(req.body);
 
-  try {
-    await user.save();
+  // try {
+  //   await user.save();
 
-    res.status(201).json({ message: "user registered" })
-  } catch (error) {
-    res.status(400).send(error.message)
+  //   res.status(201).json({ message: "user registered" })
+  // } catch (error) {
+  //   res.status(400).send(error.message)
 
-  }
-
-
-
+  // }
 })
 
 
