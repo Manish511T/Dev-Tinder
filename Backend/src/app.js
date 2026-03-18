@@ -52,7 +52,7 @@ app.get("/user", async (req, res) => {
     }
     res.send(user);
   } catch (error) {
-    res.status.json({ message: "Something went wrong!" });
+    res.status(500).json({ message: "Something went wrong!" });
   }
 });
 
@@ -63,9 +63,21 @@ app.get("/feed", async (req, res) => {
     res.send(users);
 
   } catch (error) {
-    res.status.json({ message: "Something went wrong!" });
+    res.status(500).json({ message: "Something went wrong!" });
   }
 });
+
+app.delete("/user", async (req, res)=>{
+  const userId = req.body.userId;
+  try{
+    const user = await User.findByIdAndDelete({_id:userId});
+    res.send("User deleted  successfully")
+    
+  }catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+
+})
 
 
 
