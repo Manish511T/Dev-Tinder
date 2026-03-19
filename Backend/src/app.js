@@ -14,7 +14,7 @@ app.use(express.json());
 app.post("/signup", async (req, res) => {
   try {
     const { firstName, lastName, emailId, password } = req.body;
-    const existingUser = await User.find({ emailId });
+    const existingUser = await User.findOne({ emailId });
 
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -77,6 +77,19 @@ app.delete("/user", async (req, res)=>{
     res.status(500).json({ message: "Something went wrong!" });
   }
 
+})
+
+app.patch("/user", async(req, res)=>{
+
+  const {userId, ...data}= req.body;
+
+  try{
+    await User.findByIdAndUpdate(userId, data);
+    res.send("User updated successfully");
+
+  }catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
 })
 
 
